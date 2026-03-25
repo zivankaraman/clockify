@@ -7,6 +7,8 @@
 \item{start}{Start time}
 
 \item{end}{End time}
+
+\item{tz}{Time zone for output timestamps, default: Sys.timezone().}
 }
 \description{
 These are parameters which occur commonly across functions for reports.

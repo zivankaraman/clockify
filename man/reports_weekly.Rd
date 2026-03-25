@@ -4,7 +4,7 @@
 \alias{reports_weekly}
 \title{Weekly report}
 \usage{
-reports_weekly(start, end, extra_args = list())
+reports_weekly(start, end, extra_args = list(), tz = Sys.timezone())
 }
 \arguments{
 \item{start}{Start time}
@@ -14,6 +14,8 @@ reports_weekly(start, end, extra_args = list())
 \item{extra_args}{Extra arguments to be passed to the
 \href{https://docs.clockify.me/#tag/Time-Entry-Report/operation/generateSummaryReport}{API}.
 Example: \code{extra_args = list(rounding = TRUE)}.}
+
+\item{tz}{Time zone for output timestamps, default: Sys.timezone().}
 }
 \value{
 A data frame with a weekly summary of time entries for the specified time period.
