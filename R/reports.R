@@ -6,6 +6,7 @@
 #'
 #' @param start Start time
 #' @param end End time
+#' @param tz Time zone for output timestamps, default: Sys.timezone().
 NULL
 
 #' Summary report
@@ -36,7 +37,7 @@ NULL
 #'   select(-duration, -amount) %>%
 #'   unnest(entries)
 #' }
-reports_summary <- function(start, end, extra_args = list()) {
+reports_summary <- function(start, end, extra_args = list(), tz = Sys.timezone()) {
   path <- sprintf("/workspaces/%s/reports/summary", workspace())
 
   body <- list(
@@ -49,7 +50,7 @@ reports_summary <- function(start, end, extra_args = list()) {
         "TIMEENTRY"
       )
     ),
-    timeZone = "Etc/UTC"
+    timeZone = tz
   )
   body[names(extra_args)] <- extra_args
 
@@ -65,7 +66,8 @@ reports_summary <- function(start, end, extra_args = list()) {
         user_name = user$name,
         duration = user$duration,
         amount = user$amount,
-        amounts = map(user$amounts, ~ map_dfr(., identity)),
+        # amounts = map(user$amounts, ~ map_dfr(., identity)),
+        amounts = map_df(user$amounts, identity),
         projects = list(
           map_dfr(
             user$children,
@@ -103,6 +105,7 @@ reports_summary <- function(start, end, extra_args = list()) {
 #' @param extra_args Extra arguments to be passed to the
 #'  [API](https://docs.clockify.me/#tag/Time-Entry-Report).
 #'  Example: `extra_args = list(rounding = TRUE)`.
+#' @param page_size Number of results requested per page.
 #'
 #' @return A data frame with detailed time entries for the specified time period.
 #'
@@ -112,7 +115,7 @@ reports_summary <- function(start, end, extra_args = list()) {
 #' \dontrun{
 #' report <- reports_detailed("2022-08-01", "2022-09-01")
 #' }
-reports_detailed <- function(start, end, extra_args = list()) {
+reports_detailed <- function(start, end, extra_args = list(), tz = Sys.timezone(), page_size = 50) {
   path <- sprintf("/workspaces/%s/reports/detailed", workspace())
 
   body <- list(
@@ -120,9 +123,9 @@ reports_detailed <- function(start, end, extra_args = list()) {
     dateRangeEnd = time_format(end),
     detailedFilter = list(
       page = 1,
-      pageSize = 50
+      pageSize = page_size
     ),
-    timeZone = "Etc/UTC"
+    timeZone = tz
   )
   body[names(extra_args)] <- extra_args
 
@@ -171,7 +174,7 @@ reports_detailed <- function(start, end, extra_args = list()) {
 #'   select(-duration, -amount) %>%
 #'   unnest(projects)
 #' }
-reports_weekly <- function(start, end, extra_args = list()) {
+reports_weekly <- function(start, end, extra_args = list(), tz = Sys.timezone()) {
   path <- sprintf("/workspaces/%s/reports/weekly", workspace())
 
   body <- list(
@@ -181,7 +184,7 @@ reports_weekly <- function(start, end, extra_args = list()) {
       group = "USER",
       subgroup = "TIME"
     ),
-    timeZone = "Etc/UTC"
+    timeZone = tz
   )
   body[names(extra_args)] <- extra_args
 

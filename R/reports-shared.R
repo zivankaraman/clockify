@@ -235,7 +235,9 @@ shared_report_update <- function(shared_report_id, name = NULL, is_public = NULL
   body <- list(
     name = name,
     isPublic = is_public,
-    fixedDate = fixed_date
+    fixedDate = fixed_date,
+    visibleToUsers = c(),
+    visibleToUserGroups = c()
   )
 
   response <- PUT(
