@@ -1,5 +1,6 @@
 library(clockify)
-set_api_key(Sys.getenv("CLOCKIFY_API_KEY"))
+set_api_key(Sys.getenv("KFW_CLOCKIFY_API_KEY"))
+# set_api_key(Sys.getenv("ELIA_CLOCKIFY_API_KEY"))
 
 from <- as.Date("2026-01-01")
 to <- as.Date("2026-03-31")
