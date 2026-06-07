@@ -1,7 +1,7 @@
 Package: clockify
 Type: Package
 Title: A Wrapper for the 'Clockify' API
-Version: 0.1.7.9000
+Version: 0.9.9.9999
 Authors@R: 
     c(person(given = c("Andrew", "B."),
              family = "Collier",
@@ -17,7 +17,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports:
     anytime,
     dplyr,
